@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./res/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="./res/layui/css/layui.css">
+    <script type="text/javascript" src="./res/layui/layui.js"></script>
+    <!--不引入js,将会出现 Uncaught ReferenceError: $ is not defined-->
+    <script src = "/js/jquery-3.3.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<script>
+
+
+
+    $.ajaxSetup({
+        //data:{"name":sessionStorage.getItem("token")}
+        // aop 面向切面编程   进行统一处理  相当于  环绕通知  headers:前置通知    complete:后置通知
+        headers: {
+            // 相当于：将"login_token"放入session中   'token'与后台登录拦截器中对应
+            // login_token 与 login.html中保持一致  所以在addressServiceImpl中注入request
+            'token': sessionStorage.getItem("login_token")
+        },
+        //数据加载完成后
+        complete:function(a,b,c){
+            // debugger;
+            var rs=a.responseJSON;
+
+            if(rs.code==1000){
+                alert(rs.message);
+                location.href="/login.html"
+            }
+
+        }
+
+        /* beforeSend: function(xhr) {
+             debugger;
+             xhr.setRequestHeader("token:'"+sessionStorage.getItem("login_token")+"'");
+         }*/
+    });
+
+    $(function(){
+        initQueryOrder();
+    })
+
+    function initQueryOrder() {
+        $.post({
+            url:"http://localhost:8084/order/queryOrder",
+            dataType:"json",
+            success:function (rs) {
+                //alert(JSON.stringify(rs));
+                if(rs.code==200){
+                    //拿到商品信息
+                    var orderData=rs.data;
+                    alert(orderData);
+                    var htmls="";//拼好显示的html
+                    for (var i = 0; i <orderData.length ; i++) {
+                        //拿到具体的一个
+                        var order=orderData[i];
+                        htmls+=' <tr>\n' +
+                            '          <td>'+order.proTypeCount+'</td>\n' +
+                            '          <td>支付状态：'+order.payStatus+'==0?"未支付":"支付成功"</td>\n' +
+                            '          <td>日期：'+order.createDate+'</td>\n' +
+                            '          <td>小计：'+order.subtotal+'</td>\n' +
+                            '      </tr>';
+                    }
+                    $("#orderDiv").html(htmls);
+                }
+            },
+            error:function () {
+                alert("查询我的订单异常");
+            }
+        })
+
+    }
+
+</script>
+<body>
+
+<div class="site-nav-bg">
+    <div class="site-nav w1200">
+        <p class="sn-back-home">
+            <i class="layui-icon layui-icon-home"></i>
+            <a href="./index.html">首页</a>
+        </p>
+        <div class="sn-quick-menu">
+
+            <div class="login"><a href="login.html">登录</a></div>
+            <div class="sp-cart"><a href="shopcart.html">购物车</a><span></span></div>
+            <div class="sp-cart"><a href="myOrder.html">我的订单</a></div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="header">
+    <div class="headerLayout w1200">
+        <div class="headerCon">
+            <h1 class="mallLogo">
+                <a href="#" title="母婴商城">
+                    <img src="../res/static/img/logo.png">
+                </a>
+            </h1>
+            <div class="mallSearch">
+                <form action="" class="layui-form" novalidate>
+                    <input type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入需要的商品">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">
+                        <i class="layui-icon layui-icon-search"></i>
+                    </button>
+                    <input type="hidden" name="" value="">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="commod-cont-wrap">
+    <div class="commod-cont w1200 layui-clear">
+        <div class="right-cont-wrap">
+            <div class="right-cont">
+                <div class="prod-number">
+                    <span>200个</span>
+                </div>
+
+
+                <div class="cont-list layui-clear" id="list-cont">
+
+                    <table border="2"  cellspacing="0" width="400px" id="orderDiv">
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

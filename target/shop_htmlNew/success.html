@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="./res/static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="./res/layui/css/layui.css">
+  <script type="text/javascript" src="./res/layui/layui.js"></script>
+  <!--不引入js,将会出现 Uncaught ReferenceError: $ is not defined-->
+  <script src = "/js/jquery-3.3.1.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<body>
+  支付成功
+
+<script type="text/javascript">
+    $.ajaxSetup({
+        //data:{"name":sessionStorage.getItem("token")}
+        // aop 面向切面编程   进行统一处理  相当于  环绕通知  headers:前置通知    complete:后置通知
+        headers: {
+            // 相当于：将"login_token"放入session中   'token'与后台登录拦截器中对应
+            // login_token 与 login.html中保持一致  所以在addressServiceImpl中注入request
+            'token': sessionStorage.getItem("login_token")
+        },
+        //数据加载完成后
+        complete:function(a,b,c){
+            // debugger;
+            var rs=a.responseJSON;
+
+            if(rs.code==1000){
+                alert(rs.message);
+                location.href="/login.html"
+            }
+
+        }
+
+        /* beforeSend: function(xhr) {
+             debugger;
+             xhr.setRequestHeader("token:'"+sessionStorage.getItem("login_token")+"'");
+         }*/
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="./res/static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="./res/layui/css/layui.css">
+  <script type="text/javascript" src="./res/layui/layui.js"></script>
+  <!--不引入js,将会出现 Uncaught ReferenceError: $ is not defined-->
+  <script src = "/js/jquery-3.3.1.min.js"></script>
+  <!-- 引入bootstrap css文件 -->
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/bootstrap/css/bootstrap.dropdown.hack.css" rel="stylesheet" />
+  <!-- 引入bootstrap js文件 -->
+  <script src="/bootstrap/js/jquery-3.3.1.min.js"></script>
+  <script src="/bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- 引入bootbox相关js -->
+  <script src="/js/bootbox/bootbox.locales.min.js" type="text/javascript"></script>
+  <script src="/js/bootbox/bootbox.min.js" type="text/javascript"></script>
+
+  <!-- 引入fileinput文件上传插件的css文件和js文件 -->
+  <link href="/js/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" />
+  <script src="/js/bootstrap-fileinput/js/fileinput.min.js"></script>
+  <script src="/js/bootstrap-fileinput/js/locales/zh.js"></script>
+
+
+  <!-- 引入datatables表格插件的css文件和js文件 -->
+  <link href="/js/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+  <script src="/js/DataTables/js/jquery.dataTables.min.js"></script>
+  <script src="/js/DataTables/js/dataTables.bootstrap.min.js"></script>
+
+  <!-- 引入datetimepicker日期插件的css文件和js文件 -->
+  <link href="/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+  <script src="/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+  <script type="text/javascript" src="/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+  <!-- 引入表单验证插件 -->
+  <link href="/js/bootstrapValidator/css/bootstrapValidator.min.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="/js/bootstrapValidator/js/bootstrapValidator.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<body>
+
+  <div class="site-nav-bg">
+    <div class="site-nav w1200">
+      <p class="sn-back-home">
+        <i class="layui-icon layui-icon-home"></i>
+        <a href="#">首页</a>
+      </p>
+      <div class="sn-quick-menu">
+        <div class="login"><a href="login.html">登录</a></div>
+        <div class="sp-cart"><a href="shopcart.html">购物车</a><span>2</span></div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="header">
+    <div class="headerLayout w1200">
+      <div class="headerCon">
+        <h1 class="mallLogo">
+          <a href="#" title="母婴商城">
+            <img src="./res/static/img/logo.png">
+          </a>
+        </h1>
+        <div class="mallSearch">
+          <form action="" class="layui-form" novalidate>
+            <input type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入需要的商品">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+            <input type="hidden" name="" value="">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="content content-nav-base  login-content">
+    <div class="main-nav">
+      <div class="inner-cont0">
+        <div class="inner-cont1 w1200">
+          <div class="inner-cont2">
+            <a href="commodity.html" class="active">所有商品</a>
+            <a href="buytoday.html">今日团购</a>
+            <a href="information.html">母婴资讯</a>
+            <a href="about.html">关于我们</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="login-bg">
+      <div class="login-cont w1200">
+        <div class="form-box">
+          <form class="layui-form" action="">
+            <legend>手机号登录</legend>
+            <div class="layui-form-item">
+              <div class="layui-inline iphone">
+                <div class="layui-input-inline">
+                  <i class="layui-icon layui-icon-cellphone iphone-icon"></i>
+                  <input type="tel" name="phone" id="phone" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-inline veri-code">
+                <div class="layui-input-inline">
+                  <input id="pnum" type="text" name="pnum" lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input">
+                  <input type="button" onclick="sendMsg()" class="layui-btn" id="find"  value="验证码" />
+                </div>
+              </div>
+            </div>
+            <div class="layui-form-item login-btn">
+              <div class="layui-input-block">
+                <button type = "button" class="layui-btn" lay-submit="" lay-filter="demo1" onclick = "login()"onclick="return false" style="width: 110px;height: 35px">登录</button>
+                <button type = "button" class="layui-btn" lay-submit="" lay-filter="demo1" onclick = "register()"onclick="return false" style="width: 110px;height: 35px">注册</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="ng-promise-box">
+      <div class="ng-promise w1200">
+        <p class="text">
+          <a class="icon1" href="javascript:;">7天无理由退换货</a>
+          <a class="icon2" href="javascript:;">满99元全场免邮</a>
+          <a class="icon3" style="margin-right: 0" href="javascript:;">100%品质保证</a>
+        </p>
+      </div>
+    </div>
+    <div class="mod_help w1200">                                     
+      <p>
+        <a href="javascript:;">关于我们</a>
+        <span>|</span>
+        <a href="javascript:;">帮助中心</a>
+        <span>|</span>
+        <a href="javascript:;">售后服务</a>
+        <span>|</span>
+        <a href="javascript:;">母婴资讯</a>
+        <span>|</span>
+        <a href="javascript:;">关于货源</a>
+      </p>
+      <p class="coty">母婴商城版权所有 &copy; 2012-2020</p>
+    </div>
+  </div>
+  <script type="text/javascript">
+   layui.config({
+      base: './res/static/js/util' //你存放新模块的目录，注意，不是layui的模块目录
+    }).use(['jquery','form'],function(){
+          var $ = layui.$,form = layui.form;
+
+
+        $("#find").click(function() {
+            if(!/^1\d{10}$/.test($("#phone").val())){
+              layer.msg("请输入正确的手机号");
+              return false;
+            }
+            var obj=this;
+            $.ajax({
+                type:"get",
+                url:"../json/login.json",
+                dataType:"json",//返回的
+                success:function(data) {
+                    
+                    if(data.result){
+                        $("#find").addClass(" layui-btn-disabled");
+                        $('#find').attr('disabled',"true");
+                        settime(obj);
+                        $("#msg").text(data.msg);
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                },
+                error:function(msg) {
+                    console.log(msg);
+                }
+            }); 
+        })
+        var countdown=60;
+        function settime(obj) { 
+        if (countdown == 0) { 
+            obj.removeAttribute("disabled"); 
+            obj.classList.remove("layui-btn-disabled")
+            obj.value="获取验证码"; 
+            countdown = 60;
+            return;
+        } else { 
+            
+            obj.value="重新发送(" + countdown + ")"; 
+            countdown--; 
+        } 
+        setTimeout(function() { 
+            settime(obj) }
+            ,1000) 
+        }
+    })
+
+   function sendMsg() {
+       var iphone=$("#phone").val();
+       if(/^1\d{10}$/.test(iphone)){
+           $.post({
+               url:"http://localhost:8081/vip/sendMessage.do",
+               dataType:"json",
+               data:{"iphone":iphone},
+               success:function (rs) {
+                   if(rs.code==200){
+                       $("#find").addClass(" layui-btn-disabled");
+                       $('#find').attr('disabled',"true");
+                       settime($("#find")[0]);
+                       $("#msg").text(rs.data);
+                   }else{
+                       layer.msg(data.msg);
+                   }
+               },error:function () {
+                   alert("发送验证码失败");
+               }
+           });
+       }
+
+   }
+
+
+   function login() {
+       //alert("sdfsd");
+       //获取手机号
+       var iphone=$("#phone").val();
+       //获取验证码
+       var code=$("#pnum").val();
+
+       $.post({
+           url:"http://localhost:8081/vip/login.do",
+           data:{"iphone":iphone,"code":code},
+           dataType:"json",
+           success:function (rs) {
+               if(rs.data.status==200){
+                   // 秘钥返回了
+/*                   var token=rs.data.token;
+                   //秘钥要保存到浏览器中  localstory  sessionstory  区别就是存值的存活范围
+                   sessionStorage.setItem("login_token",token);*/
+// 秘钥返回了
+                   var token=rs.data.token;
+                   //秘钥要保存到浏览器中  localstory  sessionstory  区别就是存值的存活范围
+                   sessionStorage.setItem("login_token",token);
+                   // 哪里用到了？？？
+                   sessionStorage.setItem("login_name",iphone);
+                   alert("登录成功");
+                   location.href = "/index.html";
+               }else{
+                   alert(rs.data.message);
+               }
+           },error:function(){
+               alert("登录异常");
+           }
+       });
+   }
+
+    // 注册  初始化弹框信息
+    var registerBox;
+    var validateObj;
+    function register(){
+        //获取弹框的页面格式
+        var htmls=$("#registerDiv").html();
+        registerBox =bootbox.dialog({  //模态框   下面没有"确认"，"取消"按钮
+            title:"注册信息",
+            message:htmls
+        });
+        // 初始化 时间插件
+        $("#birthday",registerBox).datetimepicker({
+            format: 'yyyy-mm-dd',  //显示格式
+            language:"zh-CN",
+            minView : 2
+        });
+        //初始化上传文件插件
+        $("#imgPath",registerBox).fileinput({
+            uploadUrl:"http://localhost:8081/register/uploadFile.do", //上传的地址
+            browseClass:"btn btn-success", //按钮样式
+            dropZoneEnabled: false
+        }).on("fileuploaded", function(e, data, previewiId, index) {
+            //把文件的访问路径  赋给隐藏域
+            $("#hiddenImgPath",registerBox).val(data.response.filePath);
+            // 图片文件
+            $("#imgPath",registerBox).attr("src","<%=request.getContextPath()%>/" + data.response.filePath);
+        });
+        // 初始化validate
+        validateObj=$("#registerForm",registerBox).bootstrapValidator({
+            feedbackIcons: {//相关提示图表
+                valid: 'glyphicon glyphicon-ok',//验证通过
+                invalid: 'glyphicon glyphicon-remove',//验证失败
+                validating: 'glyphicon glyphicon-refresh'//验证时
+            },fields:{ //对那些字段  进行校验
+/*                number:{
+                    validators:{//验证要求
+                        notEmpty:{
+                            message:"手机号不能为空"
+                        },regexp: {
+                            //
+                            regexp: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+                            message: '密码至少包含 数字和英文，长度6-20'
+                        }
+                    }
+                },*/name:{
+                    // 表单验证插件  只能针对于name属性
+                    validators:{//验证要求
+                        notEmpty:{
+                            message:"用户名不能为空"
+                        },regexp: {
+                            //
+                            regexp: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+                            message: '用户名至少包含 数字和英文，长度6-20'
+                        }, remote:{ //远程校验!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  {"valid":true}
+                            url:'http://localhost:8081//register/findByName.do',
+                            message:'用户名已存在',
+                            /*delay  将程序的执行暂停一段时间(毫秒)       delay:1000  一般是延时1000毫秒*/
+                            delay:1000,
+                            type:'POST',
+                            data:function (validator) {//传递的参数
+                                return{
+                                    //  "" 冒号前面的，应该与后台保持一致
+                                    name:$("input[name=name]").val()
+                                }
+                            }
+                        },stringLength: {
+                            min:3,
+                            max:8,
+                            message: '账号长度必须在3到8位之间'
+                        }
+                    }
+                },sex:{
+                    validators:{
+                        callback:{
+                            message:"性别必选",
+                            callback:function(){
+                                return $("[name=sex]:checked").length>0;
+                            }
+                        }
+                    }
+                },province: {
+                    validators: {
+                        notEmpty: {
+                            message: '地区不能为空'
+                        },
+                        callback: {
+                            message: '省不能为空',
+                            callback: function (value) {
+                                if (value != -1) { //-1是--请选择--选项
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                },city: {
+                    validators: {
+                        notEmpty: {
+                            message: '地区不能为空'
+                        },
+                        callback: {
+                            message: '市不能为空',
+                            callback: function (value) {
+                                if (value != -1) { //-1是--请选择--选项
+
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        });
+
+        // 处理下拉框  三级联动  地区  一次性将数据全部取出来
+        $.post({
+            url:"http://localhost:8081/area/queryAreaList.do",
+            dataType:"json",
+            success:function (rs) {
+                if(rs.code==200){
+                    areaData=rs.data;
+                    // alert(areaData);
+                    //处理下拉框
+                    //<option>请选择</option>
+                    var  provinceHtml="<option value='-1'>请选择</option>";
+                    for (var i = 0; i < areaData.length; i++) {
+                        //取出具体的一个数据  判断是否为省
+                        if(areaData[i].pid==1){
+                            provinceHtml+='<option value="'+areaData[i].id+'">'+areaData[i].name+'</option>'
+                        }
+                    }
+                    //将拼接的内容  填充到下拉框中
+                    $("#province",registerBox).html(provinceHtml);
+                }else{
+                    bootbox.alert(rs.message);
+                }
+            },error:function () {
+                alert("获取地区信息异常");
+            }
+        });
+    }
+
+   var areaData;   // 地区
+   function showCity() {
+       // 把country清空   那为什么市city会自动清空呢
+       $("#country",registerBox).html("<option value='-1'>请选择</option>");
+       var  cityHtml="<option value='-1'>请选择</option>";
+       for (var i = 0; i < areaData.length; i++) {
+           //取出具体的一个数据  判断是否为某个省下的市
+           //获取选中的 第一级目录
+           var id=$("#province",registerBox).val();
+           if(areaData[i].pid==id){
+               cityHtml+='<option value="'+areaData[i].id+'">'+areaData[i].name+'</option>'
+           }
+       }
+       //将拼接的内容  填充到下拉框中
+       $("#city",registerBox).html(cityHtml);
+   }
+
+
+
+   function showCountry(){
+       var  countryHtml="<option value='-1'>请选择</option>";
+       for (var i = 0; i < areaData.length; i++) {
+           //取出具体的一个数据  判断是否为某个省下的市
+           //获取选中的市
+           var id=$("#city",registerBox).val();
+           if(areaData[i].pid==id){
+               countryHtml+='<option value="'+areaData[i].id+'">'+areaData[i].name+'</option>'
+           }
+       }
+       //将拼接的内容  填充到下拉框中
+       $("#country",registerBox).html(countryHtml);
+   }
+
+
+    // 注册  向后端发起请求
+   function addData() {
+       //得到校验的结果
+       var rs=validateObj.data("bootstrapValidator").isValid();//校验合格
+       validateObj.data("bootstrapValidator").validate();
+       if(rs == true){
+           // 获取用户填写的数据
+           var name = $("#name",registerBox).val();
+           var sex = $("[name=sex]:checked",registerBox).val();
+           var number = $("#number",registerBox).val();
+           var birthday = $("#birthday",registerBox).val();
+           var imgPath = $("#hiddenImgPath",registerBox).val();
+           // alert(imgPath);
+
+           // 地区相关  省市县
+           var province = $("#province",registerBox).val();
+           var city = $("#city",registerBox).val();
+           var country = $("#country",registerBox).val();
+           // 地区
+           var areaIds=province+","+city+","+country;
+
+           $.post({
+               url:"http://localhost:8081/register/addRegister.do",
+               dataType:"json",
+               data:{
+                   /* " "中，与后台（实体类）对应；另一个是与：上面定义的变量名保持一致*/
+                   "name":name,
+                   "sex":sex,
+                   "number":number,
+                   "birthday":birthday,
+                   "imgPath":imgPath,
+                   "areaIds":areaIds
+               },
+               async:false,//关闭异步加载
+               success:function (data) {
+                   if(data.code==200){
+                       // search();
+                       bootbox.alert(data.message);
+                       // 关闭模态框
+                       registerBox.modal("hide");
+                   }else{
+                       bootbox.alert(data.message);
+                       // 关闭模态框
+                       registerBox.modal("hide");
+
+                   }
+
+               },error:function () {
+                   alert("获取数据异常");
+               }
+           });
+       }
+
+
+
+
+   }
+
+  </script>
+
+  <%-- 注册的页面模板--%>
+  <div id="registerDiv" style="display: none">
+
+    <form id="registerForm" class="form-horizontal" role="form">
+      <div class="form-group">
+        <label  for="name" class="col-sm-2 control-label">用户名</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="name" name="name" placeholder="请输入用户名">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="sex" class="col-sm-2 control-label">性别</label>
+        <div class="col-sm-10">
+          <label class="radio-inline">
+            <!--checked  代表默认被选中-->
+            <input type="radio" name="sex" value="1"> 男
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="sex" value="0"> 女
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="sex" value="-1"> 未知
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="number" class="col-sm-2 control-label">手机号</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="number" name="number" placeholder="请输入手机号">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="birthday" class="col-sm-2 control-label">生日</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="birthday" name="birthday">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="imgPath" class="col-sm-2 control-label">头像</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="hiddenImgPath">
+          <input type="file" class="form-control" name="img" id="imgPath">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2">地区</label>
+        <div class="col-sm-10">
+          <div class="col-sm-4">
+            <select name="province" id="province" class="form-control" onchange="showCity()">
+              <option value="">请选择</option></select>
+          </div>
+          <div class="col-sm-4">
+            <select id="city" name = "city" onchange="showCountry()"class="form-control">
+              <option value="">请选择</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <select name="country" id="country" class="form-control">
+              <option value="">请选择</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="button"  onclick="addData()" class="btn btn-success">注册</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

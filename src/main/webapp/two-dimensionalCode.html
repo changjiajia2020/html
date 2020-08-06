@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="./res/static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="./res/layui/css/layui.css">
+  <script type="text/javascript" src="./res/layui/layui.js"></script>
+  <!--不引入js,将会出现 Uncaught ReferenceError: $ is not defined-->
+  <script src = "/js/jquery-3.3.1.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+  <script src="/js/qrcode.min.js"></script>
+<body>
+  <div class="container">
+    <div>
+      你的订单号为:<font id="orderId" color="red"></font>
+      金额:<font id="money" color="red"></font>
+      <font id="payStatus" color="red"></font>
+    </div>
+    <div id="qrcode"></div>
+  </div>
+
+
+  <script type="text/javascript">
+
+    // 入口函数
+    $(function(){
+        // 提交订单之后，生成的随机二维码TwodimensionalCode图片
+        initRandomTCodePhoto();
+        queryPayStatus(); // 查询支付状态
+    })
+
+    $.ajaxSetup({
+        //data:{"name":sessionStorage.getItem("token")}
+        // aop 面向切面编程   进行统一处理  相当于  环绕通知  headers:前置通知    complete:后置通知
+        headers: {
+            // 相当于：将"login_token"放入session中   'token'与后台登录拦截器中对应
+            // login_token 与 login.html中保持一致  所以在addressServiceImpl中注入request
+            'token': sessionStorage.getItem("login_token")
+        },
+        //数据加载完成后
+        complete:function(a,b,c){
+            // debugger;
+            var rs=a.responseJSON;
+
+            if(rs.code==1000){
+                alert(rs.message);
+                location.href="/login.html"
+            }
+
+        }
+
+        /* beforeSend: function(xhr) {
+             debugger;
+             xhr.setRequestHeader("token:'"+sessionStorage.getItem("login_token")+"'");
+         }*/
+    });
+
+    // 提交订单之后，生成的随机二维码TwodimensionalCode图片  (目的：获取订单号)
+    function initRandomTCodePhoto(){
+        var infoStr = sessionStorage.getItem("orderInfo");
+        alert(infoStr); // {"code":200,"orderId":27,"totalMoney":1112244}
+        var infoObj = JSON.parse(infoStr);  // parse将String转为object
+        alert(infoObj); // [object Object]
+        // 将订单号和金额显示到页面   orderId  totalMoney 与serviceImpl创建订单方法中，保持一致
+        $("#orderId").html(infoObj.orderId);
+        $("#money").html(infoObj.totalMoney);
+        var oid = infoObj.orderId;
+        //请求接口 获取支付二维码路径
+        $.post({
+            url:"http://localhost:8081/order/createRandomTCodePhoto.do",
+            dataType:"json",
+            data:{"orderId":oid},
+            success:function (rs) {
+                alert(JSON.stringify(rs))
+                //拿到二维码
+                if(rs.code==200){
+                    if(rs.data.code==200){
+                        alert("二维码路径为:"+rs.data.url);
+                        //展示二维码
+                        //生成二维码   需要路径
+                        new QRCode(document.getElementById("qrcode"), rs.data.url);  // 设置要生成二维码的链接
+                        // 页面请求支付状态  5秒
+                         setInterval(queryPayStatus,1000*5); // 单位是毫秒
+                    }else{
+                        alert("微信生成二维码异常："+rs.data.info);
+                    }
+                }
+            },error:function () {
+                alert("获取二维码失败");
+            }
+        })
+
+    }
+
+    function queryPayStatus() {
+        var infoStr = sessionStorage.getItem("orderInfo");
+        var infoObj=JSON.parse(infoStr);
+        var oid=infoObj.orderId;
+        $.post({
+            url:"http://localhost:8081/order/queryPayStatus.do",
+            dataType:"json",
+            data:{"orderId":oid},
+            success:function (rs) {
+                if(rs.data==0){
+                    alert("支付异常： 请联系客户");
+                }else if (rs.data==1) {
+                    location.href="/success.html"
+                }else if(rs.data==2){
+                    $("#payStatus").html("用户支付中");
+                }else if(rs.data==3){
+                    $("#payStatus").html("用户还没操作");
+                }
+            },error:function () {
+                alert("支付查询异常");
+            }
+        });
+    }
+
+  </script>
+</body>
+</html>
+
+

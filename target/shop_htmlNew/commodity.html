@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>前端页面</title>
+  <link rel="stylesheet" type="text/css" href="./res/static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="./res/layui/css/layui.css">
+  <script type="text/javascript" src="./res/layui/layui.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<!--不引入js,将会出现 Uncaught ReferenceError: $ is not defined-->
+<script src = "/js/jquery-3.3.1.min.js"></script>
+<body>
+
+  <div class="site-nav-bg">
+    <div class="site-nav w1200">
+      <p class="sn-back-home">
+        <i class="layui-icon layui-icon-home"></i>
+        <a href="#">首页</a>
+      </p>
+      <div class="sn-quick-menu">
+        <div class="login"><a href="login.html">登录</a></div>
+        <div class="sp-cart"><a href="shopcart.html">购物车</a><span>2</span></div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="header">
+    <div class="headerLayout w1200">
+      <div class="headerCon">
+        <h1 class="mallLogo">
+          <a href="#" title="母婴商城">
+            <img src="./res/static/img/logo.png">
+          </a>
+        </h1>
+        <div class="mallSearch">
+          <form action="" class="layui-form" novalidate>
+            <input type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入需要的商品">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+            <input type="hidden" name="" value="">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="content content-nav-base commodity-content">
+    <div class="main-nav">
+      <div class="inner-cont0">
+        <div class="inner-cont1 w1200">
+          <div class="inner-cont2">
+            <a href="commodity.html" class="active">所有商品</a>
+            <a href="buytoday.html">今日团购</a>
+            <a href="information.html">母婴资讯</a>
+            <a href="about.html">关于我们</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="commod-cont-wrap">
+      <div class="commod-cont w1200 layui-clear">
+        <div class="left-nav">
+          <div class="title">所有分类</div>
+          <div class="list-box"  id = "typeDiv">
+          <!--<dl>
+             <dt>奶粉辅食</dt>
+             <dd><a href="javascript:;">进口奶粉</a></dd>
+             <dd><a href="javascript:;">宝宝辅食</a></dd>
+             <dd><a href="javascript:;">营养品</a></dd>
+            </dl>
+        -->
+
+          </div>
+        </div>
+        <div class="right-cont-wrap">
+          <div class="right-cont">
+            <div class="sort layui-clear">
+              <a class="active" href="javascript:;" event = 'volume'>销量</a>
+              <a href="javascript:;" event = 'price'>价格</a>
+              <a href="javascript:;" event = 'newprod'>新品</a>
+              <a href="javascript:;" event = 'collection'>收藏</a>
+            </div>
+            <div class="prod-number">
+              <span>200个</span>
+            </div>
+            <div class="cont-list layui-clear" id="list-cont"  >
+             <div id = "productDiv"></div>
+            </div>
+            <!-- 模版引擎导入 -->
+            <!-- <script type="text/html" id="demo">
+              {{# layui.each(d.menu.milk.content,function(index,item){}}    
+                <div class="item">
+                  <div class="img">
+                    <a href="javascript:;"><img src="{{item.img}}"></a>
+                  </div>
+                  <div class="text">
+                    <p class="title"></p>
+                    <p class="price">
+                      <span class="pri">{{item.pri}}</span>
+                      <span class="nub">{{item.nub}}</span>
+                    </p>
+                  </div>
+                </div>
+              {{# }); }}
+            </script> -->
+            <div id="demo0" style="text-align: center;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+<script>
+
+  layui.config({
+    base: './res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+  }).use(['mm','laypage','jquery'],function(){
+      var laypage = layui.laypage,$ = layui.$,
+     mm = layui.mm;
+       laypage.render({
+        elem: 'demo0'
+        ,count: 100 //数据总数
+      });
+
+
+    // 模版引擎导入
+    //  var html = demo.innerHTML;
+    //  var listCont = document.getElementById('list-cont');
+    //  // console.log(layui.router("#/about.html"))
+    // mm.request({
+    //     url: '../json/commodity.json',
+    //     success : function(res){
+    //       console.log(res)
+    //       listCont.innerHTML = mm.renderHtml(html,res)
+    //     },
+    //     error: function(res){
+    //       console.log(res);
+    //     }
+    //   })
+
+    $('.sort a').on('click',function(){
+      $(this).addClass('active').siblings().removeClass('active');
+    })
+    $('.list-box dt').on('click',function(){
+      if($(this).attr('off')){
+        $(this).removeClass('active').siblings('dd').show()
+        $(this).attr('off','')
+      }else{
+        $(this).addClass('active').siblings('dd').hide()
+        $(this).attr('off',true)
+      }
+    })
+
+});
+
+
+  $(function(){
+      // 初始化类型
+      initType();
+      // 根据typeId查询所有商品信息   此方法：没有使用mybatis_Plus
+      //queryProductListByTypeId();
+      queryProductInfo();
+      // 查看商品信息 点击商品时，会跳转至商品详细信息
+      queryProductListByTypeId2();
+  })
+
+
+  function initType(){
+      $.post({
+          url:"http://localhost:8081/type/queryTypeList.do",
+          dataType:"json",
+          success:function (data) {
+              if(data.code == 200){
+                  var typeArr= data.data;
+                  var typeDivHtml="";
+                  for (var i = 0; i <typeArr.length ; i++) {
+                      if(typeArr[i].pid == 1){
+                          typeDivHtml+="<dl><dt>"+typeArr[i].name+"</dt>";
+                          for (var j = 0; j <typeArr.length ; j++) {
+                              if(typeArr[i].id == typeArr[j].pid){
+                                  typeDivHtml+="<dd><a href='javascript:;'>"+typeArr[j].name+"</a></dd>";
+                              }
+                          }
+                          typeDivHtml+="</dl>"
+
+                      }
+
+                  }
+                  $("#typeDiv").html(typeDivHtml)
+              }
+          },error:function () {
+              alert("请求分类异常！")
+          }
+      });
+  }
+
+  // 方法1   根据typeId查询所有商品信息   此方法：没有使用mybatis_Plus
+
+  /*function queryProductListByTypeId(){
+      var url = location.href;
+      // 可以分开看   http://localhost:8082/commodity.html?id  和   =3
+      // alert(url); // http://localhost:8082/commodity.html?id=3
+      // 先用split('=')方法将字符串以"="开割形成一个字符串数组()，然后再通过索引[1]取出所得数组中的第二个元素的值
+      // 数组元素的索引值是从0开始计数的，也就是说第一个元素的索引值是0，往后依次加1
+      var typeId=","+url.split("=")[1]+","; // ,3,
+      // alert(typeId);// 0  ,http://localhost:8082/commodity.html?id,
+      // 2  ,undefined,   -1  ,undefined,
+      $.post({
+          url:"http://localhost:8081/product/queryProductListByTypeId.do",
+          dataType:"json",
+          data:{"typeId":typeId},
+          success:function (data) {
+                  var productArr= data.data;
+                  var productDivHtml="";
+                  for (var i = 0; i <productArr.length ; i++) {
+
+                      productDivHtml+="<div class='item'><div class=\"img\">";
+                      // <a  href=\"/details.html?proId="+hotProductArr[i].proId+"\">   <a href='/details.html?proId="+productArr[i].proId+"'>
+                      productDivHtml+="<a  href=\"./details.html?proId="+productArr[i].proId+"\"><img width=\"280.5\" height=\"288\" src='"+productArr[i].imgPath+"'></a> </div><div class=\"text\">";
+
+                      productDivHtml+="<p class=\"title\">"+productArr[i].name+"</p><p class=\"price\">";
+                      productDivHtml+="<span class=\"pri\">￥"+productArr[i].price+"</span>";
+
+                      productDivHtml+="<span class=\"nub\">1266付款</span></p></div></div>";
+
+                  }
+                  $("#productDiv").html(productDivHtml)
+
+          },error:function () {
+              alert("请求分类异常！")
+          }
+      });
+  }*/
+
+
+  // 方法2  根据typeId查询所有商品信息
+  function queryProductListByTypeId2(){
+      //获取类型id
+      var paramJson=getParam();
+      // debugger;
+      $.post({
+          url:"http://localhost:8081/product/queryProductListByTypeId2.do",
+          dataType:"json",
+          data:paramJson,
+          success:function (data) {
+              // alert(JSON.stringify(data));
+              var productArr= data.data;
+
+              var productDivHtml="";
+              for (var i = 0; i <productArr.length ; i++) {
+                  productDivHtml+="<div class='item'><div class=\"img\">";
+                  productDivHtml+="<a  href=\"./details.html?proId="+productArr[i].proId+"\"><img width=\"280.5\" height=\"288\" src='"+productArr[i].imgPath+"'></a> </div><div class=\"text\">";
+
+                  productDivHtml+="<p class=\"title\">"+productArr[i].name+"</p><p class=\"price\">";
+                  productDivHtml+="<span class=\"pri\">￥"+productArr[i].price+"</span>";
+
+                  productDivHtml+="<span class=\"nub\">1266付款</span></p></div></div>";
+
+              }
+              $("#productDiv").html(productDivHtml)
+
+          },error:function () {
+              alert("请求分类异常！")
+          }
+      });
+  }
+
+
+  // 获取参数
+  function getParam() {
+      var obj = {}; // 声明一个json
+      //debugger;
+      // 获取路径 例如：www.sdfds?name=adsfsd&age=23&sex=2
+      var url = location.href;
+      // substring  和 substr区别
+      var urlParam = url.substr(url.lastIndexOf("?")+1);
+      var paramArr = urlParam.split("&");
+      for (var i = 0; i <paramArr.length ; i++) {
+          var param = paramArr[i];    // name=adsfsd
+          var keyP = param.substr(0,param.indexOf("="));
+          obj[keyP]=param.substr(param.indexOf("=")+1);
+      }
+      return obj;
+
+  }
+
+
+
+  // 查看商品信息 点击商品时，会跳转至商品详细信息
+  function queryProductInfo(){
+      var url = location.href;
+      var proId=","+url.split("=")[1]+","; // ,3,
+      $.post({
+          // 查询热销商品详情
+          url:"http://localhost:8081/product/queryProductInfo.do",
+          dataType:"json",
+          data:{"proId":proId},
+          success:function (data) {
+              alert(JSON.stringify(data.data));
+              // 获取传过来的对象
+              var detailHotProductInfo = data.data;
+              alert(detailHotProductInfo)
+              // 给名称赋值     text()或者html()
+              $("#name_cjj").text(detailHotProductInfo.name);
+                  // 给图片赋路径   attr()操作属性
+                  $("#img_cjj").attr("src",detailHotProductInfo.imgPath);
+                  // 给图片赋大小
+                  $("#img_cjj").attr("width","402px");
+                  $("#img_cjj").attr("height","402px");
+                  $("#areaIds").text(detailHotProductInfo.areaIds);
+              if(detailHotProductInfo.isHot==0){
+                  //将元素隐身
+                  $("#isHot_cjj").hide();
+              }
+              alert("查看详情数据成功");
+          },error:function () {
+              alert("查看详情数据异常！")
+          }
+      });
+  }
+
+
+</script>
+
+
+</body>
+</html>

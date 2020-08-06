@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>前端页面</title>
+  <link rel="stylesheet" type="text/css" href="./res/static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="./res/layui/css/layui.css">
+  <script type="text/javascript" src="./res/layui/layui.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<!-- 引入bootstrap css文件 -->
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/bootstrap/css/bootstrap.dropdown.hack.css" rel="stylesheet" />
+<!-- 引入bootstrap js文件 -->
+<script src="/bootstrap/js/jquery-3.3.1.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+
+<!--不引入js,将会出现 Uncaught ReferenceError: $ is not defined-->
+<script src = "/js/jquery-3.3.1.min.js"></script>
+
+<body id="list-cont">
+  <div class="site-nav-bg">
+    <div class="site-nav w1200">
+      <p class="sn-back-home">
+        <i class="layui-icon layui-icon-home"></i>
+        <a href="#">首页</a>
+      </p>
+      <div class="sn-quick-menu">
+        <div class="sp-cart"><a href="myOrder.html">我的订单</a></div>
+        <div class="login"><a href="login.html">登录</a></div>
+        <div class="sp-cart"><a href="shopcart.html">购物车</a><span>2</span></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="header">
+    <div class="headerLayout w1200">
+      <div class="headerCon">
+        <h1 class="mallLogo">
+          <a href="#" title="母婴商城">
+            <img src="./res/static/img/logo.png">
+          </a>
+        </h1>
+        <div class="mallSearch">
+          <form action="" class="layui-form" novalidate>
+            <input type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入需要的商品">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+            <input type="hidden" name="" value="">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!--轮播图-->
+  <div class="content">
+    <div class="main-nav">
+      <div class="inner-cont0">
+        <div class="inner-cont1 w1200">
+          <div class="inner-cont2">
+            <a href="commodity.html" class="active">所有商品</a>
+            <a href="buytoday.html">今日团购</a>
+            <a href="information.html">母婴资讯</a>
+            <a href="about.html">关于我们</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--全部分类-->
+    <div class="category-con">
+      <div class="category-inner-con w1200">
+        <div class="category-type">
+          <h3>全部分类</h3>
+        </div>
+        <div class="category-tab-content">
+          <div class="nav-con">
+            <ul id = "typeUl" class="normal-nav layui-clear">
+              <li class="nav-item">
+                <div class="title">奶粉辅食</div>
+                <p><a href="#">奶粉</a><a href="#">捕食</a><a href="#">营养品</a></p>
+                <i class="layui-icon layui-icon-right"></i>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="category-banner">
+        <div class="w1200">
+          <img src="./res/static/img/banner1.jpg">
+        </div>
+      </div>
+    </div>
+
+    <!---->
+    <div class="floors">
+      <div class="sk">
+        <div class="sk_inner w1200">
+          <div class="sk_hd">
+            <a href="javascript:;">
+              <img src="./res/static/img/s_img1.jpg">
+            </a>
+          </div>
+          <div class="sk_bd">
+            <div class="layui-carousel" id="test1">
+              <div carousel-item>
+                <div class="item-box">
+                  <div class="item">
+                    <a href="javascript:;"><img src="./res/static/img/s_img2.jpg"></a>
+                    <div class="title">宝宝五彩袜棉质舒服</div>
+                    <div class="price">
+                      <span>￥49.00</span>
+                      <del>￥99.00</del>
+                    </div>
+                  </div>
+                  <div class="item">
+                    <a href="javascript:;"><img src="./res/static/img/s_img3.jpg"></a>
+                    <div class="title">宝宝五彩袜棉质舒服</div>
+                    <div class="price">
+                      <span>￥49.00</span>
+                      <del>￥99.00</del>
+                    </div>
+                  </div>
+                  <div class="item">
+                    <a href="javascript:;"><img src="./res/static/img/s_img4.jpg"></a>
+                    <div class="title">宝宝五彩袜棉质舒服</div>
+                    <div class="price">
+                      <span>￥49.00</span>
+                      <del>￥99.00</del>
+                    </div>
+                  </div>
+                  <div class="item">
+                    <a href="javascript:;"><img src="./res/static/img/s_img5.jpg"></a>
+                    <div class="title">宝宝五彩袜棉质舒服</div>
+                    <div class="price">
+                      <span>￥49.00</span>
+                      <del>￥99.00</del>
+                    </div>
+                  </div>
+                </div>
+                <div class="item-box">
+                  <div class="item">
+                    <a href="javascript:;"><img src="./res/static/img/s_img2.jpg"></a>
+                    <div class="title">宝宝五彩袜棉质舒服</div>
+                    <div class="price">
+                      <span>￥49.00</span>
+                      <del>￥99.00</del>
+                    </div>
+                  </div>
+                  <div class="item">
+                    <a href="javascript:;"><img src="./res/static/img/s_img3.jpg"></a>
+                    <div class="title">宝宝五彩袜棉质舒服</div>
+                    <div class="price">
+                      <span>￥49.00</span>
+                      <del>￥99.00</del>
+                    </div>
+                  </div>
+                  <div class="item">
+                    <a href="javascript:;"><img src="./res/static/img/s_img4.jpg"></a>
+                    <div class="title">宝宝五彩袜棉质舒服</div>
+                    <div class="price">
+                      <span>￥49.00</span>
+                      <del>￥99.00</del>
+                    </div>
+                  </div>
+                  <div class="item">
+                    <a href="javascript:;"><img src="./res/static/img/s_img5.jpg"></a>
+                    <div class="title">宝宝五彩袜棉质舒服</div>
+                    <div class="price">
+                      <span>￥49.00</span>
+                      <del>￥99.00</del>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="product-list-box" id="product-list-box">
+      <div class="product-list-cont w1200">
+
+        <h4>热销推荐</h4>
+            <div style="margin-bottom:10px">
+              <button type="button" onclick="refreshHotProduct()" class="btn btn-info">
+                <span class="glyphicon glyphicon-plus"></span>刷新
+              </button>
+            </div>
+
+
+
+        <div class="product-item-box layui-clear" id = "hotProductDiv">
+<!--          <div class="list-item">
+            <a href="javascript:;"><img src="../res/static/img/more1.jpg"></a>
+            <p>时尚宝宝小黄鸭T恤纯棉耐脏多色可选0-2岁宝宝</p>
+            <span>￥100.00</span>
+          </div>-->
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="ng-promise-box">
+      <div class="ng-promise w1200">
+        <p class="text">
+          <a class="icon1" href="javascript:;">7天无理由退换货</a>
+          <a class="icon2" href="javascript:;">满99元全场免邮</a>
+          <a class="icon3" style="margin-right: 0" href="javascript:;">100%品质保证</a>
+        </p>
+      </div>
+    </div>
+    <div class="mod_help w1200">                                     
+      <p>
+        <a href="javascript:;">关于我们</a>
+        <span>|</span>
+        <a href="javascript:;">帮助中心</a>
+        <span>|</span>
+        <a href="javascript:;">售后服务</a>
+        <span>|</span>
+        <a href="javascript:;">母婴资讯</a>
+        <span>|</span>
+        <a href="javascript:;">关于货源</a>
+      </p>
+      <p class="coty">母婴商城版权所有 &copy; 2012-2020</p>
+    </div>
+  </div>
+  <script type="text/javascript">
+
+layui.config({
+    base: './res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+  }).use(['mm','carousel'],function(){
+      var carousel = layui.carousel,
+     mm = layui.mm;
+     var option = {
+        elem: '#test1'
+        ,width: '100%' //设置容器宽度
+        ,arrow: 'always'
+        ,height:'298' 
+        ,indicator:'none'
+      }
+      carousel.render(option);
+      // 模版引擎导入
+     // var ins = carousel.render(option);
+     // var html = demo.innerHTML;
+     // var listCont = document.getElementById('list-cont');
+     // // console.log(layui.router("#/about.html"))
+     //  mm.request({
+     //    url: './json/index.json',
+     //    success : function(res){
+     //      console.log(res)
+     //      listCont.innerHTML = mm.renderHtml(html,res)
+     //      ins.reload(option);
+     //    },
+     //    error: function(res){
+     //      console.log(res);
+     //    }
+     //  })
+
+    $(function(){
+        // 初始化方法
+        initInfo();
+        // 初始化类型
+        initType();
+        // 查看热销商品
+        queryHotProduct();
+    })
+
+    function initInfo(){
+        $.post({
+            url:"http://localhost:8081/type/queryTypeList.do",
+            dataType:"json",
+            success:function(rs){
+                //alert(JSON.stringify(rs.data));  // 获取数据
+            },error:function(){
+                alert("获取数据异常")
+            }
+        })
+    }
+});
+
+
+function initType(){
+    $.post({
+        url:"http://localhost:8081/type/queryTypeList.do",
+        dataType:"json",
+        success:function (data) {
+            if(data.code == 200){
+                var typeArr= data.data;
+                // typeOf() 检测是哪种数据类型
+                if(typeof(typeArr)=="string"){
+                    typeArr =JSON.parse(typeArr)
+                }
+                var typeUlHtml="";
+                for (var i = 0; i <typeArr.length ; i++) {
+                    if(typeArr[i].pid == 1){
+                        typeUlHtml+="<li class='nav-item'><div class='title'>"+typeArr[i].name+"</div><p>";
+                        for (var j = 0; j <typeArr.length ; j++) {
+                            // 判断是不是它的typeArr[i].id子节点
+                            // typeArr[i].pid == typeArr[j].id
+                            if(typeArr[i].id == typeArr[j].pid){
+                                typeUlHtml+="<a href=\"/commodity.html?id="+typeArr[j].id+"\">"+typeArr[j].name+"</a>";
+                            }
+                        }
+
+
+                        typeUlHtml+="</p><i class='layui-icon layui-icon-right'></i></li>"
+
+                    }
+
+                }
+                $("#typeUl").html(typeUlHtml)
+            }
+        },error:function () {
+            alert("请求分类异常！")
+        }
+    });
+}
+
+    // 查询热销商品
+    function queryHotProduct(){
+/*    <div class="list-item"><a href="javascript:;"><img src="../res/static/img/more1.jpg"></a>
+            <p>时尚宝宝小黄鸭T恤纯棉耐脏多色可选0-2岁宝宝</p>
+        <span>￥100.00</span>
+        </div>*/
+        $.post({
+            url:"http://localhost:8081/product/queryHotProduct.do",
+            dataType:"json",
+            data:{},
+            success:function (data) {
+                // 把String类型数据，转换成object对象
+                var hotProductArr= JSON.parse(data.data);
+                // [object Object]
+                // alert(hotProductArr);
+                /**
+                 * [{"imgPath":"https://fh1908a.oss-cn-qingdao.aliyuncs.com/438b7f55-2a2f-4843-9722-da66582414eb.png","name":"qwasdf","price":11,"proId":119}]
+                  */
+                // alert(data.data);
+                var hotProductDivHtml="";
+                for (var i = 0; i <hotProductArr.length ; i++) {
+                    // 把图片前面的 http://localhost:8080/去掉
+                    hotProductDivHtml+="<div class=\"list-item\"><a  href=\"./details.html?proId="+hotProductArr[i].proId+"\"><img width=\"160.0\" height=\"160.0\" src='"+hotProductArr[i].imgPath+"'></a>";
+                    hotProductDivHtml+="<p>"+hotProductArr[i].name+"</p>";
+
+                    hotProductDivHtml+="<span>￥"+hotProductArr[i].price+"</span>";
+                    hotProductDivHtml+="</div>";
+
+                }
+                $("#hotProductDiv").html(hotProductDivHtml)
+
+            },error:function () {
+                alert("请求热销商品异常！")
+            }
+        });
+
+    }
+
+    // 刷新热销商品
+    function refreshHotProduct(){
+        $.post({
+            url:"http://localhost:8081/product/refreshHotProduct.do",
+            dataType:"json",
+            data:{},
+            success:function (data) {
+                // 把String类型数据，转换成object对象
+                var hotProductArr= JSON.parse(data.data);
+                // [object Object]
+                // alert(hotProductArr);
+                /**
+                 * [{"imgPath":"https://fh1908a.oss-cn-qingdao.aliyuncs.com/438b7f55-2a2f-4843-9722-da66582414eb.png","name":"qwasdf","price":11,"proId":119}]
+                 */
+                // alert(data.data);
+                var hotProductDivHtml="";
+                for (var i = 0; i <hotProductArr.length ; i++) {
+                    // 把图片前面的 http://localhost:8080/去掉
+                    hotProductDivHtml+="<div class=\"list-item\"><a  href=\"javascript:;\"><img width=\"160.0\" height=\"160.0\" src='"+hotProductArr[i].imgPath+"'></a>";
+                    hotProductDivHtml+="<p>"+hotProductArr[i].name+"</p>";
+
+                    hotProductDivHtml+="<span>￥"+hotProductArr[i].price+"</span>";
+                    hotProductDivHtml+="</div>";
+
+                }
+                $("#hotProductDiv").html(hotProductDivHtml)
+               alert("刷新数据成功");
+            },error:function () {
+                alert("请求热销商品异常！")
+            }
+        });
+    }
+
+  </script>
+<script>
+
+
+</script>
+</body>
+</html>
