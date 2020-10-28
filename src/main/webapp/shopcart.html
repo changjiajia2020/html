@@ -243,6 +243,7 @@
         headers: {
             // 相当于：将"login_token"放入session中   'token'与后台登录拦截器中对应
             // login_token 与 login.html中保持一致  所以在addressServiceImpl中注入request
+            // 将token 存储在sessionstory中，只要浏览器关闭，token将无法取出来了
             'token': sessionStorage.getItem("login_token")
         },
         //数据加载完成后

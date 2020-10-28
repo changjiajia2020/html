@@ -23,8 +23,9 @@
 
   <div>
     <b>支付方式：</b><br>
-    <input type="radio" name="payType" value="0"/> 在线支付
+    <input type="radio" name="payType" value="0"/> 微信支付
     <input type="radio" name="payType" value="1" />货到付款
+    <input type="radio" name="payType" value="2" />支付宝支付
   </div>
 
   <div id="productInfo">
@@ -118,7 +119,7 @@
       });
   }
 
-  // 获取购物车选中的数据   没选中!!!
+  // 获取购物车选中的数据
   function queryCartCheckedProduct(){
       $.post({
           url:"http://localhost:8081/cart/queryCartCheckedProduct.do",
@@ -172,7 +173,7 @@
           dataType:"json",
           data:{"addressId":address,"payType":payType,"flag":sendFlag},
           success:function (rs) {
-              // alert(JSON.stringify(rs));
+               alert(JSON.stringify(rs));
               // debugger;
               if(rs.code==200){//请求成功
                   alert("生成订单成功");
@@ -181,8 +182,20 @@
                   var str = JSON.stringify(rs.data);  // JSON.stringify() 将Object转为String
                   // alert(str);
                   sessionStorage.setItem("orderInfo",str);
-                  // 跳转至"二维码"
-                   location.href="/two-dimensionalCode.html"
+
+                  // 点击提交订单时,进行判断
+                  if(payType == 0){
+                      // 跳转至"二维码"
+                      location.href="/two-dimensionalCode.html";
+                  }else if(payType == 1){
+                      // 货到付款
+                      alert("此商品准备发货了哦！");
+                  }else if(payType == 2){
+                      // 跳转至"支付宝支付"页面
+                      location.href="/aliPay.html";
+                  }else{
+
+                  }
               }else if (rs.code==2000) {
                   alert(rs.message);
               }else if(rs.code==300){

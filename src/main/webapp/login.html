@@ -103,7 +103,7 @@
               <div class="layui-inline iphone">
                 <div class="layui-input-inline">
                   <i class="layui-icon layui-icon-cellphone iphone-icon"></i>
-                  <input type="tel" name="phone" id="phone" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+                  <input type="tel" name="phone" id="phone" lay-verify="required|phone" placeholder="请输入手机号或者用户名" autocomplete="off" class="layui-input">
                 </div>
               </div>
               <div class="layui-inline veri-code">
@@ -113,6 +113,8 @@
                 </div>
               </div>
             </div>
+<!--如果不写value值,即使你选中复选框,他也会显示on-->
+            <input  type="checkbox" style="display: none" value="1" lay-skin="primary" title="七天免登陆"  name="isLogin_cjj"/>
             <div class="layui-form-item login-btn">
               <div class="layui-input-block">
                 <button type = "button" class="layui-btn" lay-submit="" lay-filter="demo1" onclick = "login()"onclick="return false" style="width: 110px;height: 35px">登录</button>
@@ -183,29 +185,34 @@
                 }
             }); 
         })
-        var countdown=60;
-        function settime(obj) { 
-        if (countdown == 0) { 
-            obj.removeAttribute("disabled"); 
-            obj.classList.remove("layui-btn-disabled")
-            obj.value="获取验证码"; 
-            countdown = 60;
-            return;
-        } else { 
-            
-            obj.value="重新发送(" + countdown + ")"; 
-            countdown--; 
-        } 
-        setTimeout(function() { 
-            settime(obj) }
-            ,1000) 
-        }
+
     })
+
+   // 将settime()方法,从layui中提取出来
+   var countdown=60;
+   function settime(obj) {
+       if (countdown == 0) {
+           obj.removeAttribute("disabled");
+           obj.classList.remove("layui-btn-disabled")
+           obj.value="获取验证码";
+           countdown = 60;
+           return;
+       } else {
+
+           obj.value="重新发送(" + countdown + ")";
+           countdown--;
+       }
+       setTimeout(function() {
+               settime(obj) }
+           ,1000)
+   }
 
    function sendMsg() {
        var iphone=$("#phone").val();
-       if(/^1\d{10}$/.test(iphone)){
-           $.post({
+ //      if(/^1\d{10}$/.test(iphone)){  // 正则
+       debugger;
+       if(iphone != null){
+           $.ajax({
                url:"http://localhost:8081/vip/sendMessage.do",
                dataType:"json",
                data:{"iphone":iphone},
@@ -226,17 +233,26 @@
 
    }
 
-
+  // 登录
    function login() {
        //alert("sdfsd");
        //获取手机号
        var iphone=$("#phone").val();
        //获取验证码
        var code=$("#pnum").val();
-
+      // 通过jQuery获取  复选框
+       var isLogin = $("[name=isLogin_cjj]:checked").val();
+       // alert(isLogin);  // 选中时,弹出1(上面定义的value值);未选中时,弹出undefined
+       console.log(isLogin)
+       if(isLogin==undefined){
+           // 设定它的返回值为0
+           isLogin=0;
+       }
+       var times = new Date().getTime();
+       console.log(times);
        $.post({
            url:"http://localhost:8081/vip/login.do",
-           data:{"iphone":iphone,"code":code},
+           data:{"iphone":iphone,"code":code,"isLogin":isLogin},
            dataType:"json",
            success:function (rs) {
                if(rs.data.status==200){
@@ -248,8 +264,16 @@
                    var token=rs.data.token;
                    //秘钥要保存到浏览器中  localstory  sessionstory  区别就是存值的存活范围
                    sessionStorage.setItem("login_token",token);
-                   // 哪里用到了？？？
+                   // 哪里用到了？？？  订单页面查询收货地址(根据手机号查询)
                    sessionStorage.setItem("login_name",iphone);
+                   // 将sessionStorage里面的信息  转换成localStorage
+                    if(isLogin==1){
+                        // 说明:用户勾选了"7天免登录"
+                        localStorage.setItem("login_token",token);
+                        localStorage.setItem("login_name",iphone);
+                        // 设置时间
+                        localStorage.setItem("login_token_time",times+"");
+                    }
                    alert("登录成功");
                    location.href = "/index.html";
                }else{
@@ -260,6 +284,40 @@
            }
        });
    }
+
+   // 正常情况,存储在sessionStorge中,7天免登录,将信息存到localStorge中
+   // 其他页面,都是从localStorge取出来,然后放到sessionStorge,因为其他页面,还要从sessionStorge中取
+
+
+   // 用于:七天免登录功能
+   function isLogin(){
+       // 取出locationstory中的值
+       var token = localStorage.getItem("login_token");
+       if(token !=null){
+           //判断localstory的值是否超过七天
+           var item = localStorage.getItem("login_token_time");   // 得到之前的时间戳
+           debugger;
+           var times = new Date().getTime();    // 现在的时间戳
+           // var distinction = (times - item)/(1000*3600*24);
+           var flag = (times-item) >= 1000*60*60*24*7;
+           if(flag){
+                // 说明:超过七天了
+               localStorage.removeItem("login_token");
+               localStorage.clear();
+           }else{
+               //将token放入sessionStroy中  目的:不用在其他页面,将所有的sessionStorage改成localStorage
+               sessionStorage.setItem("login_token",token);
+               location.href="/index.html";
+               // history.back();
+           }
+           // localStorage.clear();
+
+       }
+   }
+
+   $(function(){
+       isLogin();
+   })
 
     // 注册  初始化弹框信息
     var registerBox;
